@@ -1,13 +1,15 @@
 package fr.unice.polytech.model;
 
+import fr.unice.polytech.gen.Visitable;
+import fr.unice.polytech.gen.Visitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Transition {
+public class Transition implements Visitable {
 
     private List<Condition> conditions;
     private State next;
-    private int delay = 0;
 
     public Transition() {
         conditions = new ArrayList<>();
@@ -17,11 +19,25 @@ public class Transition {
         this.next = next;
     }
 
-    public void setDelay(int delay) {
-        this.delay = delay;
+    public List<Condition> getConditions() {
+        return conditions;
+    }
+
+    public State getNext() {
+        return next;
+    }
+
+    public boolean hasDelay() {
+        return false;
     }
 
     public void addCondition(Condition condition) {
         conditions.add(condition);
     }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
 }

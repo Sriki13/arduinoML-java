@@ -4,18 +4,20 @@ import fr.unice.polytech.model.*;
 
 public abstract class Visitor {
 
-    abstract void visit(Action action);
+    public abstract void visit(Action action);
 
-    abstract void visit(Actuator actuator);
+    public abstract void visit(Actuator actuator);
 
-    abstract void visit(App app);
+    public abstract void visit(Sensor sensor);
 
-    abstract void visit(Condition condition);
+    public abstract void visit(App app);
 
-    abstract void visit(Sensor sensor);
+    public abstract void visit(Condition condition);
 
-    abstract void visit(State state);
+    public abstract void visit(State state);
 
-    abstract void visit(Transition transition);
+    public abstract void visit(Transition transition);
+
+    public abstract void visit(DelayedTransition transition);
 
 }

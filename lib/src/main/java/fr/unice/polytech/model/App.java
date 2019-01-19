@@ -1,9 +1,12 @@
 package fr.unice.polytech.model;
 
+import fr.unice.polytech.gen.Visitable;
+import fr.unice.polytech.gen.Visitor;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class App extends NamedElement {
+public class App extends NamedElement implements Visitable {
 
     private State initial;
 
@@ -38,6 +41,11 @@ public class App extends NamedElement {
 
     public void setInitial(State initial) {
         this.initial = initial;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 
 }

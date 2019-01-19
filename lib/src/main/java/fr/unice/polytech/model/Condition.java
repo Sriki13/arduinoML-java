@@ -1,6 +1,9 @@
 package fr.unice.polytech.model;
 
-public class Condition {
+import fr.unice.polytech.gen.Visitable;
+import fr.unice.polytech.gen.Visitor;
+
+public class Condition implements Visitable {
 
     private Sensor sensor;
     private Signal value;
@@ -12,4 +15,18 @@ public class Condition {
     public void setValue(Signal value) {
         this.value = value;
     }
+
+    public Sensor getSensor() {
+        return sensor;
+    }
+
+    public Signal getValue() {
+        return value;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
 }

@@ -27,11 +27,6 @@ public class TransitionBuilder {
         return this;
     }
 
-    public TransitionBuilder after(int time) {
-        transition.setDelay(time);
-        return this;
-    }
-
     public TransitionTableBuilder goTo(String name) {
         transition.setNext(parent.getState(name));
         return parent;

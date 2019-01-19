@@ -1,6 +1,9 @@
 package fr.unice.polytech.model;
 
-public class Brick extends NamedElement {
+import fr.unice.polytech.gen.Visitable;
+import fr.unice.polytech.gen.Visitor;
+
+public abstract class Brick extends NamedElement implements Visitable {
 
     private int pin;
 
@@ -8,4 +11,12 @@ public class Brick extends NamedElement {
         super(name);
         this.pin = pin;
     }
+
+    public int getPin() {
+        return pin;
+    }
+
+    @Override
+    public abstract void accept(Visitor visitor);
+
 }
