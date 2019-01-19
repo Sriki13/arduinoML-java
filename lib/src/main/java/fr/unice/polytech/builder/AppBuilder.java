@@ -67,7 +67,7 @@ public class AppBuilder {
             throw new IllegalArgumentException("Invalid identifier start: " + name);
         }
         for (int i = 1; i < name.length(); i++) {
-            if (Character.isJavaIdentifierPart(name.charAt(i))) {
+            if (!Character.isJavaIdentifierPart(name.charAt(i))) {
                 throw new IllegalArgumentException("Invalid char in identifier " + name + " : " + name.charAt(i));
             }
         }

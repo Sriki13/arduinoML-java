@@ -13,22 +13,22 @@ public class TransitionBuilder {
         this.parent = parent;
     }
 
-    public ConditionBuilder when(String name) {
-        Condition condition = new Condition(parent.getSensor(name));
+    public ConditionBuilder when(String sensor) {
+        Condition condition = new Condition(parent.getSensor(sensor));
         transition.addCondition(condition);
         return new ConditionBuilder(condition, this);
     }
 
-    public ConditionBuilder and(String name) {
-        return when(name);
+    public ConditionBuilder and(String sensor) {
+        return when(sensor);
     }
 
     public TransitionBuilder then() {
         return this;
     }
 
-    public TransitionTableBuilder goTo(String name) {
-        transition.setNext(parent.getState(name));
+    public TransitionTableBuilder goTo(String state) {
+        transition.setNext(parent.getState(state));
         return parent;
     }
 

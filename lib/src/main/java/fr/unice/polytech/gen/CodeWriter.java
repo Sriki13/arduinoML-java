@@ -24,6 +24,10 @@ public class CodeWriter {
         builder.append("\n");
     }
 
+    public void writeLn() {
+        builder.append("\n");
+    }
+
     public void startLn(String str) {
         for (int i = 0; i < indentLevel; i++) {
             builder.append(INDENT);

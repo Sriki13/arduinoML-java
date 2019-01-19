@@ -7,10 +7,22 @@ import java.util.List;
 
 public class ArduinoCodeGenerator extends Visitor {
 
+    private App app;
     private CodeWriter writer;
     private List<String> setupLines;
 
+    private ArduinoCodeGenerator(App app) {
+        this.app = app;
+        this.setupLines = new ArrayList<>();
+        this.writer = new CodeWriter();
+    }
+
+    public static ArduinoCodeGenerator generator(App app) {
+        return new ArduinoCodeGenerator(app);
+    }
+
     public String getCode() {
+        visit(app);
         return writer.getCode();
     }
 
@@ -18,7 +30,7 @@ public class ArduinoCodeGenerator extends Visitor {
             "#include <SimpleTimer.h>\n" +
             "\n" +
             "SimpleTimer timer;\n" +
-            "int timerId = 0;";
+            "int timerId = 0;\n\n";
 
     private void endBlock() {
         writer.unindent();
@@ -27,14 +39,14 @@ public class ArduinoCodeGenerator extends Visitor {
 
     @Override
     public void visit(App app) {
-        this.setupLines = new ArrayList<>();
-        this.writer = new CodeWriter();
         writer.write(APP_SETUP);
         app.getBricks().forEach(b -> b.accept(this));
+        writer.writeLn();
         writer.writeLn("void setup() {");
         writer.indent();
         setupLines.forEach(line -> writer.writeLn(line));
         endBlock();
+        writer.writeLn();
         app.getStates().forEach(this::visit);
         writer.writeLn("void loop() {");
         writer.indent();
@@ -45,13 +57,13 @@ public class ArduinoCodeGenerator extends Visitor {
 
     @Override
     public void visit(Actuator actuator) {
-        writer.writeLn("int " + actuator.getName() + "  = " + actuator.getPin());
+        writer.writeLn("int " + actuator.getName() + " = " + actuator.getPin() + ";");
         setupLines.add("pinMode(" + actuator.getName() + ", OUTPUT);");
     }
 
     @Override
     public void visit(Sensor sensor) {
-        writer.writeLn("int " + sensor.getName() + "  = " + sensor.getPin());
+        writer.writeLn("int " + sensor.getName() + "  = " + sensor.getPin() + ";");
         setupLines.add("pinMode(" + sensor.getName() + ", INPUT);");
     }
 
@@ -77,6 +89,7 @@ public class ArduinoCodeGenerator extends Visitor {
                 .forEach(t -> t.accept(this));
         endBlock();
         endBlock();
+        writer.writeLn();
     }
 
     @Override
