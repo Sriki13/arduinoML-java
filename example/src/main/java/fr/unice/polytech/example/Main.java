@@ -1,7 +1,7 @@
 package fr.unice.polytech.example;
 
+import fr.unice.polytech.example.scenarios.MultiStateAlarm;
 import fr.unice.polytech.example.scenarios.Scenario;
-import fr.unice.polytech.example.scenarios.SimpleAlarm;
 
 import static fr.unice.polytech.gen.ArduinoCodeGenerator.generator;
 
@@ -31,7 +31,7 @@ public class Main {
 //            System.out.println(HELP);
 //            return;
 //        }
-        Scenario scenario = new SimpleAlarm();
+        Scenario scenario = new MultiStateAlarm();
         System.out.println(generator(scenario.getApp()).getCode());
     }
 

@@ -1,9 +1,6 @@
 package fr.unice.polytech.builder;
 
-import fr.unice.polytech.builder.exception.InvalidStateException;
-import fr.unice.polytech.builder.exception.NoInitialStateException;
-import fr.unice.polytech.builder.exception.NoSuchBrickException;
-import fr.unice.polytech.builder.exception.NoSuchStateException;
+import fr.unice.polytech.builder.exception.*;
 import fr.unice.polytech.model.*;
 
 public class AppBuilder {
@@ -42,6 +39,9 @@ public class AppBuilder {
     }
 
     protected void setInital(State state) {
+        if (app.getInitial() != null) {
+            throw new MultipleInitialStatesException(app.getInitial().getName(), state.getName());
+        }
         app.setInitial(state);
     }
 
