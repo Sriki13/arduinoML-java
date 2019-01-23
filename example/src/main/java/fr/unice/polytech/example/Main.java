@@ -1,14 +1,16 @@
 package fr.unice.polytech.example;
 
-import fr.unice.polytech.example.scenarios.MultiStateAlarm;
-import fr.unice.polytech.example.scenarios.Scenario;
+import fr.unice.polytech.example.scenarios.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static fr.unice.polytech.gen.ArduinoCodeGenerator.generator;
 
 public class Main {
 
     private static final String HELP = "" +
-            "Specify which example to translate and pass its number as arg.\n" +
+            "Specify which example to translate and pass its number as arg with -1, -2, etc.\n" +
             "1 - 4: Basic scenarios:\n" +
             "------------------------------\n" +
             "    1. Very simple alarm: Pushing a button activates a LED and a buzzer. Releasing the button switches\n" +
@@ -27,12 +29,22 @@ public class Main {
             "a push on button B1 and switched off 800ms after, waiting again for a new push on B1.";
 
     public static void main(String[] args) {
-//        if (args.length == 0) {
-//            System.out.println(HELP);
-//            return;
-//        }
-        Scenario scenario = new MultiStateAlarm();
-        System.out.println(generator(scenario.getApp()).getCode());
+        if (args.length != 1) {
+            System.out.println(HELP);
+            return;
+        }
+        Map<Integer, Scenario> scenarios = new HashMap<>();
+        scenarios.put(1, new SimpleAlarm());
+        scenarios.put(2, new DualCheckAlarm());
+        scenarios.put(3, new StateBasedAlarm());
+        scenarios.put(4, new MultiStateAlarm());
+        scenarios.put(5, new TemporalTransition());
+        int number = Integer.parseInt(args[0].substring(1));
+        if (scenarios.get(number) == null) {
+            System.out.println(HELP);
+            return;
+        }
+        System.out.println(generator(scenarios.get(number).getApp()).getCode());
     }
 
 }

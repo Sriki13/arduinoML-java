@@ -82,6 +82,7 @@ public class ArduinoCodeGenerator extends Visitor {
                 .forEach(t -> t.accept(this));
         writer.writeLn("while(1) {");
         writer.indent();
+        writer.writeLn("delay(100);");
         writer.writeLn("timer.run();");
         state.getActions().forEach(this::visit);
         state.getTransitions().stream()

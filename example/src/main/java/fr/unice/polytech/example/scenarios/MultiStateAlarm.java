@@ -27,7 +27,7 @@ public class MultiStateAlarm implements Scenario {
                 .transitions()
                     .from("off").when("button").isHigh().goTo("buzzing")
                     .from("buzzing").when("button").isHigh().goTo("lit")
-                    .from("lit").when("button").isHigh().goTo("buzzing")
+                    .from("lit").when("button").isHigh().goTo("off")
                 .endTransitions()
                 .build();
     }

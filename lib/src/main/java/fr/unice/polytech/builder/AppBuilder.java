@@ -13,7 +13,7 @@ public class AppBuilder {
 
     protected Actuator getActuator(String name) {
         for (Brick brick : app.getBricks()) {
-            if (brick.getName().equals(name) && brick instanceof Actuator) {
+            if (brick.getName().equals("actuator_" + name) && brick instanceof Actuator) {
                 return (Actuator) brick;
             }
         }
@@ -22,7 +22,7 @@ public class AppBuilder {
 
     protected Sensor getSensor(String name) {
         for (Brick brick : app.getBricks()) {
-            if (brick.getName().equals(name) && brick instanceof Sensor) {
+            if (brick.getName().equals("sensor_" + name) && brick instanceof Sensor) {
                 return (Sensor) brick;
             }
         }
@@ -31,14 +31,14 @@ public class AppBuilder {
 
     protected State getState(String name) {
         for (State state : app.getStates()) {
-            if (state.getName().equals(name)) {
+            if (state.getName().equals("state_" + name)) {
                 return state;
             }
         }
         throw new NoSuchStateException(name);
     }
 
-    protected void setInital(State state) {
+    protected void setInitial(State state) {
         if (app.getInitial() != null) {
             throw new MultipleInitialStatesException(app.getInitial().getName(), state.getName());
         }
@@ -63,10 +63,7 @@ public class AppBuilder {
         if (name.isEmpty()) {
             throw new IllegalArgumentException("Empty identifiers are not allowed");
         }
-        if (!Character.isJavaIdentifierStart(name.charAt(0))) {
-            throw new IllegalArgumentException("Invalid identifier start: " + name);
-        }
-        for (int i = 1; i < name.length(); i++) {
+        for (int i = 0; i < name.length(); i++) {
             if (!Character.isJavaIdentifierPart(name.charAt(i))) {
                 throw new IllegalArgumentException("Invalid char in identifier " + name + " : " + name.charAt(i));
             }
@@ -75,17 +72,17 @@ public class AppBuilder {
 
     public static Sensor sensor(String name, int pin) {
         checkValidName(name);
-        return new Sensor(name, pin);
+        return new Sensor("sensor_" + name, pin);
     }
 
     public static Actuator actuator(String name, int pin) {
         checkValidName(name);
-        return new Actuator(name, pin);
+        return new Actuator("actuator_" + name, pin);
     }
 
     public StateBuilder withState(String name) {
         checkValidName(name);
-        State state = new State(name);
+        State state = new State("state_" + name);
         app.addState(state);
         return new StateBuilder(state, this);
     }
@@ -104,7 +101,7 @@ public class AppBuilder {
                         " transition: multiple found for state " + state.getName());
             }
             if (state.getTransitions().stream().anyMatch(t -> t.getConditions().isEmpty())
-                    && state.getTransitions().size() > 0) {
+                    && state.getTransitions().size() > 1) {
                 throw new InvalidStateException("State has multiple transitions with a transition that has no " +
                         "conditions: " + state.getName());
             }

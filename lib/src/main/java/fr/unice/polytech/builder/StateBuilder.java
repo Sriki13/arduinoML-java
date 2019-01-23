@@ -20,7 +20,7 @@ public class StateBuilder {
     }
 
     public StateBuilder initial() {
-        parent.setInital(this.state);
+        parent.setInitial(this.state);
         return this;
     }
 
