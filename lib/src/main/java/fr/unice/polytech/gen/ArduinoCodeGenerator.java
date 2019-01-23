@@ -95,7 +95,7 @@ public class ArduinoCodeGenerator extends Visitor {
 
     @Override
     public void visit(Action action) {
-        writer.writeLn("digitalWrite(" + action.getActuator().getPin() + ", " + action.getValue() + ");");
+        writer.writeLn("digitalWrite(" + action.getActuator().getName() + ", " + action.getValue() + ");");
     }
 
 
@@ -131,7 +131,7 @@ public class ArduinoCodeGenerator extends Visitor {
 
     @Override
     public void visit(Condition condition) {
-        writer.write("digitalRead(" + condition.getSensor().getPin() + ") == " + condition.getValue());
+        writer.write("digitalRead(" + condition.getSensor().getName()+ ") == " + condition.getValue());
     }
 
 }
