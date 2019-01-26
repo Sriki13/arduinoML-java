@@ -26,7 +26,10 @@ public class Main {
             "5: Extension scenario\n" +
             "--------------------------------\n" +
             "    5. Alan wants to define a state machine where LED1 is switched on after\n" +
-            "a push on button B1 and switched off 800ms after, waiting again for a new push on B1.";
+            "a push on button B1 and switched off 800ms after, waiting again for a new push on B1." +
+            "--------------------------------\n" +
+            "6: Report scenario (see report for description)\n" +
+            "--------------------------------\n";
 
     public static void main(String[] args) {
         if (args.length != 1) {
@@ -39,6 +42,7 @@ public class Main {
         scenarios.put(3, new StateBasedAlarm());
         scenarios.put(4, new MultiStateAlarm());
         scenarios.put(5, new TemporalTransition());
+        scenarios.put(6, new ReportCustom());
         int number = Integer.parseInt(args[0].substring(1));
         if (scenarios.get(number) == null) {
             System.out.println(HELP);

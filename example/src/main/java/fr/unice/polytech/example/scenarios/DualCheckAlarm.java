@@ -8,7 +8,7 @@ public class DualCheckAlarm implements Scenario {
 
     @Override
     public App getApp() {
-        return application("simpleAlarm")
+        return application("dualCheckAlarm")
                     .brick(sensor("button1", 9))
                     .brick(sensor("button2", 10))
                     .brick(actuator("buzzer", 11))
